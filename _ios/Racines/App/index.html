@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no">
+<title>Racines Bien-être</title>
+<style>
+:root{--bg:#FFF7E8;--card:#fff;--ink:#3b2a14;--mute:#8a7556;--honey:#E9A21B;--honey2:#F6C453;--curc:#D98A00;--ging:#C8742B;--ail:#8F8A6B;--oig:#A0527C;--line:#F0E2C4;--ok:#5E8B5A}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;height:100%;background:var(--bg);color:var(--ink);font-family:-apple-system,"SF Pro Rounded","Helvetica Neue",sans-serif;-webkit-user-select:none;user-select:none}
+#app{height:100%;display:flex;flex-direction:column;padding-top:env(safe-area-inset-top)}
+#main{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:14px 18px 24px}
+h1{font-size:30px;margin:6px 0 2px;letter-spacing:-.5px}
+h2{font-size:21px;margin:18px 0 10px}
+.sub{color:var(--mute);font-size:15px;margin:0 0 14px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.theme{border-radius:22px;padding:16px;min-height:116px;color:#fff;display:flex;flex-direction:column;justify-content:space-between;box-shadow:0 6px 16px rgba(120,80,10,.14)}
+.theme .e{font-size:34px}.theme b{font-size:17px}.theme small{opacity:.92;font-size:12.5px}
+.chips{display:flex;gap:8px;overflow-x:auto;padding:2px 0 8px;margin:0 -18px;padding-left:18px;padding-right:18px}
+.chip{flex:none;padding:8px 14px;border-radius:99px;background:#fff;border:1.5px solid var(--line);font-size:14px;font-weight:600;color:var(--ink)}
+.chip.on{background:var(--honey);border-color:var(--honey);color:#fff}
+.card{background:var(--card);border-radius:20px;padding:14px;margin-bottom:12px;box-shadow:0 3px 12px rgba(120,80,10,.08);display:flex;gap:12px;align-items:center}
+.card .ic{font-size:34px;width:54px;height:54px;border-radius:16px;background:var(--line);display:flex;align-items:center;justify-content:center;flex:none}
+.card h3{margin:0 0 3px;font-size:16.5px}.card p{margin:0;color:var(--mute);font-size:13.5px}
+.fav{margin-left:auto;font-size:22px;padding:6px;color:#d8c8a4}.fav.on{color:#e0457b}
+.tag{display:inline-block;font-size:11.5px;background:var(--line);padding:3px 8px;border-radius:99px;margin:6px 4px 0 0;color:#6a5330}
+.top{display:flex;align-items:center;gap:10px;margin-bottom:6px}
+.back{font-size:16px;color:var(--curc);font-weight:700;padding:8px 0}
+.hero{border-radius:26px;padding:22px;color:#fff;margin:6px 0 14px}
+.hero .e{font-size:54px}.hero h1{color:#fff;margin:6px 0}
+.box{background:#fff;border-radius:18px;padding:14px 16px;margin:10px 0;box-shadow:0 3px 12px rgba(120,80,10,.08)}
+.box ul,.box ol{margin:6px 0 0;padding-left:20px;line-height:1.55;font-size:15.5px}
+.tip{background:#FFF1CC;border-left:5px solid var(--honey)}
+.warn{background:#FDECEC;border-left:5px solid #d96c6c;font-size:13.5px;line-height:1.45}
+.btn{display:block;width:100%;border:0;border-radius:16px;padding:15px;font-size:17px;font-weight:700;color:#fff;background:var(--honey);margin:12px 0}
+.btn.alt{background:#fff;color:var(--curc);border:2px solid var(--honey)}
+nav{display:flex;border-top:1px solid var(--line);background:#fffdf7;padding:6px 6px calc(6px + env(safe-area-inset-bottom))}
+nav button{flex:1;border:0;background:none;font-size:11px;color:var(--mute);padding:4px 0;font-weight:600}
+nav button span{display:block;font-size:22px}
+nav button.on{color:var(--curc)}
+.breath{display:flex;flex-direction:column;align-items:center;padding:10px 0}
+.orb{width:210px;height:210px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#FFE9A8,#F0A92A 70%);box-shadow:0 0 50px rgba(240,169,42,.55);display:flex;align-items:center;justify-content:center;transform:scale(.55);transition:transform 4s ease-in-out;margin:30px 0 20px}
+.orb b{font-size:22px;color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.25)}
+.cnt{font-size:40px;font-weight:800;color:var(--curc);height:50px}
+.chk{display:flex;gap:10px;align-items:center;padding:11px 0;border-bottom:1px solid var(--line);font-size:16px}
+.chk i{width:26px;height:26px;border-radius:8px;border:2px solid var(--honey);flex:none;display:flex;align-items:center;justify-content:center;font-style:normal;color:#fff;font-size:16px}
+.chk.on i{background:var(--ok);border-color:var(--ok)}.chk.on span{text-decoration:line-through;color:var(--mute)}
+.small{font-size:12.5px;color:var(--mute);line-height:1.45}
+.srch{width:100%;padding:12px 14px;border-radius:14px;border:1.5px solid var(--line);font-size:16px;background:#fff;margin-bottom:10px;-webkit-user-select:text;user-select:text}
+</style></head><body><div id="app"><div id="main"></div>
+<nav id="nav"></nav></div>
+<script>
+var THEMES=[
+{id:'resp',n:'Respiration',e:'🌬️',c:'#4FA3A5',d:'Souffle & gorge'},
+{id:'somm',n:'Sommeil',e:'🌙',c:'#6B5CA5',d:'Rituels du soir'},
+{id:'form',n:'Forme',e:'⚡',c:'#E58A1F',d:'Énergie du matin'},
+{id:'recu',n:'Récupération',e:'🔥',c:'#C65D3B',d:'Après l\'effort'},
+{id:'bien',n:'Bien-être',e:'🌿',c:'#5E8B5A',d:'Plaisir & douceur'}];
+var ING={miel:'🍯 Miel',curcuma:'🟡 Curcuma',gingembre:'🫚 Gingembre',ail:'🧄 Ail',oignon:'🧅 Oignon'};
+var R=[
+// RESPIRATION
+{id:1,t:'resp',e:'🍋',n:'Tisane gingembre-citron-miel',i:['gingembre','miel'],m:5,k:'Chaude et vive, la classique des gorges fatiguées.',
+ g:['3 cm de gingembre frais','1/2 citron (jus)','1 c. à café de miel','250 ml d\'eau'],
+ s:['Épluchez et tranchez finement le gingembre.','Portez l\'eau à ébullition, ajoutez le gingembre, laissez infuser 8 min à couvert.','Filtrez, laissez tiédir 2 min, puis ajoutez le jus de citron et le miel.'],
+ tip:'Ajoutez le miel hors du feu : il garde mieux ses arômes.'},
+{id:2,t:'resp',e:'🌿',n:'Infusion thym-miel',i:['miel'],m:10,k:'Parfum de garrigue, douce et réconfortante.',
+ g:['1 petite poignée de thym frais (ou 1 c. à café de séché)','250 ml d\'eau','1 c. à café de miel'],
+ s:['Versez l\'eau frémissante sur le thym.','Couvrez et laissez infuser 7 à 10 min.','Filtrez et sucrez avec le miel.'],tip:'Respirez la vapeur au-dessus de la tasse avant de boire.'},
+{id:3,t:'resp',e:'🧅',n:'Sirop d\'oignon et miel (remède de grand-mère)',i:['oignon','miel'],m:10,k:'Recette traditionnelle, à préparer 6 à 8 h à l\'avance.',
+ g:['1 gros oignon','3 c. à soupe de miel'],
+ s:['Émincez finement l\'oignon.','Alternez couches d\'oignon et de miel dans un bocal propre.','Laissez reposer 6 à 8 h au frais : un sirop se forme.','Filtrez et prenez 1 c. à café, conservez 2 jours au réfrigérateur.'],tip:'Usage traditionnel : ce n\'est pas un médicament.'},
+{id:4,t:'resp',e:'🍲',n:'Bouillon ail-gingembre',i:['ail','gingembre'],m:20,k:'Un bouillon clair, chaud et parfumé.',
+ g:['500 ml de bouillon de légumes','3 gousses d\'ail écrasées','3 cm de gingembre en lamelles','1 c. à café de curcuma','Poivre, ciboulette'],
+ s:['Chauffez le bouillon avec l\'ail et le gingembre 10 min à feu doux.','Ajoutez le curcuma et une pincée de poivre.','Filtrez ou gardez les morceaux, parsemez de ciboulette.'],tip:'Le poivre se marie très bien avec le curcuma.'},
+// SOMMEIL
+{id:5,t:'somm',e:'🥛',n:'Lait d\'or au curcuma',i:['curcuma','miel','gingembre'],m:8,k:'Le « golden milk » crémeux, parfait le soir.',
+ g:['250 ml de lait (ou boisson végétale)','1 c. à café de curcuma en poudre','1/2 c. à café de gingembre en poudre','1 pincée de poivre','1 c. à café de miel','1 pincée de cannelle'],
+ s:['Chauffez le lait à feu doux sans bouillir.','Ajoutez curcuma, gingembre, poivre et cannelle ; fouettez 3 min.','Hors du feu, sucrez avec le miel et dégustez tiède.'],tip:'Buvez-le calmement, lumière tamisée, écran éteint.'},
+{id:6,t:'somm',e:'🌼',n:'Camomille-tilleul au miel',i:['miel'],m:7,k:'L\'infusion du soir, toute simple.',
+ g:['1 c. à soupe de fleurs de camomille','1 c. à soupe de tilleul','250 ml d\'eau','1 c. à café de miel'],
+ s:['Versez l\'eau chaude (90 °C) sur les plantes.','Infusez 7 min à couvert, filtrez.','Ajoutez le miel quand c\'est tiède.'],tip:'Prenez-la 30 min avant le coucher.'},
+{id:7,t:'somm',e:'🍯',n:'Lait chaud miel-cannelle',i:['miel'],m:5,k:'Le doudou liquide, sans rien d\'autre.',
+ g:['250 ml de lait','1 c. à café de miel','1/2 c. à café de cannelle','1 pincée de vanille'],
+ s:['Chauffez le lait doucement.','Ajoutez cannelle et vanille, mélangez.','Versez dans une tasse, ajoutez le miel hors du feu.'],tip:'Ritualisez : même heure, même tasse.'},
+{id:8,t:'somm',e:'🍯',n:'Cuillère de miel-vanille du soir',i:['miel'],m:2,k:'Un mini-rituel de 2 minutes.',
+ g:['1 c. à café de miel','1 pincée de vanille ou de cannelle','1 verre d\'eau tiède'],
+ s:['Posez le miel sur une cuillère, laissez-le fondre en bouche lentement.','Buvez quelques gorgées d\'eau tiède.','Enchaînez avec 2 minutes de respiration (onglet Respirer).'],tip:'Pas de miel avant 1 an.'},
+// FORME
+{id:9,t:'form',e:'🍊',n:'Shot gingembre-citron-miel du matin',i:['gingembre','miel'],m:5,k:'Un petit coup de fouet vitaminé.',
+ g:['3 cm de gingembre frais','1 citron (jus)','1 c. à café de miel','50 ml d\'eau tiède','1 pincée de poivre'],
+ s:['Râpez le gingembre et pressez-le dans un linge ou une passoire.','Mélangez avec le jus de citron, l\'eau tiède et le miel.','Buvez en deux gorgées, à jeun ou avant le petit-déjeuner.'],tip:'Rincez-vous la bouche ensuite (acidité du citron).'},
+{id:10,t:'form',e:'🥭',n:'Smoothie mangue-curcuma-gingembre',i:['curcuma','gingembre','miel'],m:8,k:'Solaire, onctueux, énergisant.',
+ g:['1 mangue (ou 200 g surgelée)','1 banane','1 c. à café de curcuma','1 cm de gingembre','200 ml de lait ou boisson végétale','1 c. à café de miel'],
+ s:['Mettez tout dans un blender.','Mixez 1 minute jusqu\'à obtenir une texture lisse.','Dégustez frais, avec une pincée de poivre.'],tip:'Congelez des bananes mûres pour un effet glacé.'},
+{id:11,t:'form',e:'🥣',n:'Porridge miel-cannelle-gingembre',i:['miel','gingembre'],m:10,k:'Un petit-déjeuner qui tient au corps.',
+ g:['50 g de flocons d\'avoine','250 ml de lait','1/2 c. à café de cannelle','1 pincée de gingembre en poudre','1 c. à café de miel','Fruits et noix'],
+ s:['Chauffez flocons et lait 5 min en remuant.','Ajoutez cannelle et gingembre.','Servez avec miel, fruits et noix.'],tip:'Préparez-le la veille en « overnight oats ».'},
+{id:12,t:'form',e:'🥗',n:'Vinaigrette ail-miel-citron',i:['ail','miel'],m:5,k:'La sauce qui réveille toutes les salades.',
+ g:['1 petite gousse d\'ail','2 c. à soupe d\'huile d\'olive','1 c. à soupe de jus de citron','1 c. à café de miel','Sel, poivre'],
+ s:['Écrasez finement l\'ail.','Mélangez citron, miel, sel et poivre.','Incorporez l\'huile en fouettant.'],tip:'Dégermez l\'ail pour une saveur plus douce.'},
+// RECUPERATION
+{id:13,t:'recu',e:'🍜',n:'Soupe d\'oignon, ail et gingembre',i:['oignon','ail','gingembre'],m:35,k:'Réconfort total après une grosse journée.',
+ g:['3 oignons','3 gousses d\'ail','2 cm de gingembre','1 l de bouillon de légumes','1 c. à soupe d\'huile','Poivre, persil'],
+ s:['Faites suer les oignons émincés dans l\'huile 10 min.','Ajoutez ail et gingembre 2 min.','Versez le bouillon et laissez mijoter 20 min.','Mixez grossièrement et servez avec du persil.'],tip:'Une tranche de pain grillé et un peu de fromage : c\'est parfait.'},
+{id:14,t:'recu',e:'🍵',n:'Bouillon curcuma-gingembre',i:['curcuma','gingembre','ail'],m:20,k:'Doux, parfumé, très simple.',
+ g:['500 ml de bouillon','1 c. à café de curcuma','2 cm de gingembre','1 gousse d\'ail','1 pincée de poivre','Jus de citron'],
+ s:['Chauffez le bouillon avec gingembre et ail 10 min.','Ajoutez curcuma et poivre.','Relevez d\'un filet de citron.'],tip:'À boire tiède après une séance de sport.'},
+{id:15,t:'recu',e:'💧',n:'Boisson de récupération miel-citron-sel',i:['miel'],m:3,k:'Hydratation maison après l\'effort.',
+ g:['500 ml d\'eau','1 citron (jus)','2 c. à café de miel','1 pincée de sel'],
+ s:['Dissolvez le miel dans un peu d\'eau tiède.','Ajoutez citron, sel et le reste d\'eau.','Buvez par petites gorgées.'],tip:'Pensez aussi à manger quelque chose après le sport.'},
+{id:16,t:'recu',e:'🍚',n:'Riz au curcuma et à l\'ail',i:['curcuma','ail'],m:25,k:'Un plat doré pour refaire le plein.',
+ g:['200 g de riz','1 c. à café de curcuma','2 gousses d\'ail','400 ml d\'eau','1 c. à soupe d\'huile d\'olive','Sel, poivre'],
+ s:['Faites revenir l\'ail dans l\'huile 1 min.','Ajoutez riz et curcuma, nacrez 1 min.','Versez l\'eau, salez et laissez cuire 12 min à couvert.','Laissez gonfler 5 min hors du feu.'],tip:'Ajoutez des légumes ou un œuf pour un repas complet.'},
+// BIEN-ETRE
+{id:17,t:'bien',e:'☕',n:'Chaï maison gingembre-miel',i:['gingembre','miel'],m:12,k:'Épicé, doux, parfait pour une pause.',
+ g:['250 ml de lait','1 sachet de thé noir','2 cm de gingembre','1 bâton de cannelle','2 clous de girofle','1 c. à café de miel'],
+ s:['Chauffez lait, gingembre et épices 5 min à feu doux.','Ajoutez le thé, infusez 3 min.','Filtrez et ajoutez le miel.'],tip:'Remplacez le thé noir par du rooibos le soir.'},
+{id:18,t:'bien',e:'🧅',n:'Oignons caramélisés au miel',i:['oignon','miel'],m:30,k:'À tartiner, à poser sur tout.',
+ g:['4 oignons','1 c. à soupe d\'huile d\'olive','1 c. à soupe de miel','1 c. à soupe de vinaigre balsamique','Sel, thym'],
+ s:['Émincez les oignons et faites-les fondre 15 min à feu doux.','Ajoutez le miel, le vinaigre et le thym.','Laissez caraméliser 10 min en remuant.'],tip:'Se garde 4 jours au frais.'},
+{id:19,t:'bien',e:'🫘',n:'Houmous curcuma-ail',i:['curcuma','ail'],m:10,k:'Doré, crémeux, à partager.',
+ g:['1 boîte de pois chiches','2 c. à soupe de tahini','1 gousse d\'ail','1 c. à café de curcuma','Jus d\'1/2 citron','3 c. à soupe d\'huile d\'olive'],
+ s:['Égouttez les pois chiches (gardez un peu de jus).','Mixez avec tahini, ail, curcuma, citron et huile.','Ajoutez du jus de cuisson pour la texture.'],tip:'Servez avec des crudités et du pain pita.'},
+{id:20,t:'bien',e:'🥖',n:'Tartines miel-noix-gingembre',i:['miel','gingembre'],m:5,k:'Le goûter doux et croquant.',
+ g:['2 tranches de pain complet','2 c. à soupe de fromage frais','1 c. à soupe de miel','Noix concassées','1 pincée de gingembre'],
+ s:['Grillez le pain.','Tartinez de fromage frais.','Ajoutez noix, miel et gingembre.'],tip:'Quelques rondelles de poire, c\'est top.'}
+];
+var BR=[
+{id:'c55',n:'Cohérence 5-5',d:'Inspirez 5 s, expirez 5 s. Calme et régulier.',ph:[['Inspirez',5,1],['Expirez',5,0]]},
+{id:'478',n:'4-7-8 du soir',d:'Inspirez 4 s, retenez 7 s, expirez 8 s. Pour ralentir avant de dormir.',ph:[['Inspirez',4,1],['Retenez',7,1],['Expirez',8,0]]},
+{id:'box',n:'Respiration carrée',d:'4 s à chaque temps. Pour se recentrer.',ph:[['Inspirez',4,1],['Retenez',4,1],['Expirez',4,0],['Pause',4,0]]}];
+var ROUT=['Éteindre les écrans 30 min avant','Baisser la lumière','Boire une infusion tiède','2 min de respiration lente','Préparer le lendemain','Aérer la chambre'];
+var ST={fav:[],routine:{},filter:'',q:''};
+try{var s=localStorage.getItem('rc_save');if(s)ST=Object.assign(ST,JSON.parse(s));}catch(e){}
+function save(){try{localStorage.setItem('rc_save',JSON.stringify({fav:ST.fav,routine:ST.routine}));}catch(e){}}
+var M=document.getElementById('main'),NAV=document.getElementById('nav'),tab='home',view=null,br=null;
+function theme(id){return THEMES.filter(function(t){return t.id==id})[0]}
+function isFav(id){return ST.fav.indexOf(id)>=0}
+function toggleFav(id,ev){ev&&ev.stopPropagation();var i=ST.fav.indexOf(id);if(i>=0)ST.fav.splice(i,1);else ST.fav.push(id);save();render();}
+function stopBreath(){if(br){clearTimeout(br.t);clearInterval(br.i);br=null;}}
+function setTab(t){stopBreath();tab=t;view=null;render();M.scrollTop=0;}
+function nav(){var T=[['home','🏡','Accueil'],['breath','🌬️','Respirer'],['night','🌙','Soir'],['fav','❤️','Favoris'],['info','ℹ️','Infos']];
+ NAV.innerHTML=T.map(function(x){return '<button class="'+(tab==x[0]?'on':'')+'" onclick="setTab(\''+x[0]+'\')"><span>'+x[1]+'</span>'+x[2]+'</button>'}).join('');}
+function card(r){return '<div class="card" onclick="openR('+r.id+')"><div class="ic">'+r.e+'</div><div style="flex:1"><h3>'+r.n+'</h3><p>'+r.k+'</p><div>'+r.i.map(function(x){return '<span class="tag">'+ING[x]+'</span>'}).join('')+'<span class="tag">⏱ '+r.m+' min</span></div></div><div class="fav '+(isFav(r.id)?'on':'')+'" onclick="toggleFav('+r.id+',event)">'+(isFav(r.id)?'♥':'♡')+'</div></div>'}
+function openR(id){view={r:id,from:view};render();M.scrollTop=0;}
+function openT(id){view={t:id};render();M.scrollTop=0;}
+function render(){nav();var h='';
+ if(view&&view.r){var r=R.filter(function(x){return x.id==view.r})[0],t=theme(r.t);
+  h+='<div class="top"><div class="back" onclick="view=view.from||null;render()">‹ Retour</div></div>';
+  h+='<div class="hero" style="background:'+t.c+'"><div class="e">'+r.e+'</div><h1>'+r.n+'</h1><div>⏱ '+r.m+' min · '+t.n+'</div></div>';
+  h+='<button class="btn alt" onclick="toggleFav('+r.id+')">'+(isFav(r.id)?'♥ Dans mes favoris':'♡ Ajouter aux favoris')+'</button>';
+  h+='<div class="box"><b>Ingrédients</b><ul>'+r.g.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ul></div>';
+  h+='<div class="box"><b>Préparation</b><ol>'+r.s.map(function(x){return '<li>'+x+'</li>'}).join('')+'</ol></div>';
+  h+='<div class="box tip">💡 '+r.tip+'</div>';
+  h+='<div class="box warn">Ces recettes sont des préparations culinaires et des habitudes de vie douces, pas des traitements. Pas de miel avant 1 an. Si vous êtes enceinte, sous traitement (notamment anticoagulant) ou avez une condition médicale, demandez conseil à un professionnel de santé.</div>';
+ }else if(view&&view.t){var t=theme(view.t);
+  h+='<div class="top"><div class="back" onclick="view=null;render()">‹ Retour</div></div>';
+  h+='<div class="hero" style="background:'+t.c+'"><div class="e">'+t.e+'</div><h1>'+t.n+'</h1><div>'+t.d+'</div></div>';
+  h+=R.filter(function(r){return r.t==t.id}).map(function(r){return card(r)}).join('');
+ }else if(tab=='home'){
+  h+='<h1>Racines 🍯</h1><p class="sub">Miel, curcuma, gingembre, ail, oignon : 20 recettes douces pour votre bien-être au quotidien.</p>';
+  h+='<div class="grid">'+THEMES.map(function(t){return '<div class="theme" style="background:'+t.c+'" onclick="openT(\''+t.id+'\')"><div class="e">'+t.e+'</div><div><b>'+t.n+'</b><br><small>'+t.d+'</small></div></div>'}).join('')+'<div class="theme" style="background:#E9A21B" onclick="setTab(\'breath\')"><div class="e">🧘</div><div><b>Respirer</b><br><small>3 exercices guidés</small></div></div></div>';
+  h+='<h2>Par ingrédient</h2><div class="chips">'+['',...Object.keys(ING)].map(function(k){return '<div class="chip '+(ST.filter==k?'on':'')+'" onclick="ST.filter=\''+k+'\';render()">'+(k?ING[k]:'Tout')+'</div>'}).join('')+'</div>';
+  h+='<input class="srch" placeholder="Rechercher une recette…" value="'+ST.q.replace(/"/g,'')+'" oninput="ST.q=this.value;renderList()">';
+  h+='<div id="lst"></div>';
+ }else if(tab=='fav'){
+  h+='<h1>Mes favoris ❤️</h1><p class="sub">Vos recettes préférées, toujours à portée de main.</p>';
+  var f=R.filter(function(r){return isFav(r.id)});
+  h+=f.length?f.map(card).join(''):'<div class="box">Touchez ♡ sur une recette pour l\'ajouter ici.</div>';
+ }else if(tab=='night'){
+  h+='<h1>Rituel du soir 🌙</h1><p class="sub">Cochez vos petites habitudes. Cela se remet à zéro chaque jour.</p>';
+  var d=new Date().toDateString();if(ST.routine.d!=d){ST.routine={d:d};save();}
+  h+='<div class="box">'+ROUT.map(function(x,i){var on=ST.routine[i];return '<div class="chk '+(on?'on':'')+'" onclick="ST.routine['+i+']=!ST.routine['+i+'];save();render()"><i>'+(on?'✓':'')+'</i><span>'+x+'</span></div>'}).join('')+'</div>';
+  h+='<h2>Recettes du soir</h2>'+R.filter(function(r){return r.t=='somm'}).map(card).join('');
+ }else if(tab=='breath'){
+  if(br){h+='<div class="top"><div class="back" onclick="stopBreath();render()">‹ Arrêter</div></div><div class="breath"><div class="cnt" id="cnt"></div><div class="orb" id="orb"><b id="lbl">Prêt ?</b></div><div class="small" id="cyc"></div></div>';}
+  else{h+='<h1>Respirer 🌬️</h1><p class="sub">Trois exercices guidés. Installez-vous, relâchez les épaules.</p>';
+   h+=BR.map(function(b){return '<div class="card" onclick="startBreath(\''+b.id+'\')"><div class="ic">🫧</div><div><h3>'+b.n+'</h3><p>'+b.d+'</p></div></div>'}).join('');
+   h+='<div class="box warn">Exercices de détente. En cas de gêne, vertige ou inconfort, arrêtez et respirez normalement.</div>';}
+ }else if(tab=='info'){
+  h+='<h1>À propos ℹ️</h1><div class="box">Racines Bien-être regroupe des recettes maison et des routines douces autour du miel, du curcuma, du gingembre, de l\'ail et de l\'oignon. Tout fonctionne hors ligne ; vos favoris restent sur votre téléphone. Aucun compte, aucune donnée collectée.</div>';
+  h+='<div class="box warn"><b>Important :</b> cette application ne délivre aucun avis ni traitement médical. Les recettes sont culinaires et traditionnelles ; elles ne remplacent pas un professionnel de santé. Pas de miel pour les enfants de moins d\'un an. Curcuma, gingembre et ail peuvent interagir avec certains traitements (anticoagulants notamment) : demandez conseil en cas de doute, de grossesse ou de pathologie.</div>';
+  h+='<button class="btn alt" onclick="if(this.dataset.s){ST.fav=[];ST.routine={};save();render()}else{this.dataset.s=1;this.textContent=\'Touchez encore pour confirmer\'}">Effacer mes données</button>';
+ }
+ M.innerHTML=h;if(tab=='home'&&!view)renderList();}
+function renderList(){var l=document.getElementById('lst');if(!l)return;var q=ST.q.toLowerCase();
+ var f=R.filter(function(r){return(!ST.filter||r.i.indexOf(ST.filter)>=0)&&(!q||(r.n+' '+r.k).toLowerCase().indexOf(q)>=0)});
+ l.innerHTML=f.length?f.map(function(r){return card(r)}).join(''):'<div class="box">Aucune recette trouvée.</div>';}
+function startBreath(id){var b=BR.filter(function(x){return x.id==id})[0];br={b:b,p:0,n:0};render();
+ var orb=document.getElementById('orb'),lbl=document.getElementById('lbl'),cnt=document.getElementById('cnt'),cyc=document.getElementById('cyc');
+ function step(){if(!br)return;var ph=br.b.ph[br.p%br.b.ph.length];var name=ph[0],sec=ph[1],grow=ph[2];
+  lbl.textContent=name;orb.style.transitionDuration=(name=='Retenez'||name=='Pause'?0.3:sec)+'s';
+  if(name=='Inspirez')orb.style.transform='scale(1)';else if(name=='Expirez')orb.style.transform='scale(.55)';
+  var left=sec;cnt.textContent=left;clearInterval(br.i);br.i=setInterval(function(){left--;if(left>0)cnt.textContent=left;},1000);
+  br.t=setTimeout(function(){br.p++;if(br.p%br.b.ph.length==0){br.n++;cyc.textContent='Cycle '+br.n+' terminé';}step();},sec*1000);}
+ setTimeout(step,300);}
+render();
+</script></body></html>
